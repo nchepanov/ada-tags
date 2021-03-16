@@ -56,7 +56,7 @@ function generate(N) {
 }
 
 function onClick() {
-    result = generate(30).map(i => '#' + i)
+    result = generate(30)
     document.getElementById("result").innerHTML = result.join(" ")
 }
 

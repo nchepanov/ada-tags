@@ -29,7 +29,10 @@ function normalize(text) {
         console.debug("Empty input")
         return []
     }
-    values = text.split(/[ ,]+/).map(function (item) {
+    values = text.trim().split(/\s+/).map(function (item) {
+        if (item.startsWith("#")) {
+            return item.substring(1).trim();
+        }
         return item.trim();
     });
     return _.uniq(values);
@@ -38,7 +41,11 @@ function normalize(text) {
 function get_state() {
     var musthaves = normalize(document.getElementById("musthaves").value);
     var optional = normalize(document.getElementById("optional").value);
-    return {"musthaves": musthaves, "optional": optional}
+    var both = _.intersection(musthaves, optional);
+    if (0 < both.length) {
+        optional = optional.filter((el) => !both.includes(el));
+    }
+    return { "musthaves": musthaves, "optional": optional }
 }
 
 
@@ -77,7 +84,7 @@ function onEdit() {
     document.getElementById("optional").addEventListener("keyup", onEdit);
 
     var query = parse_query_string(window.location.search.substring(1));
-    document.getElementById("musthaves").value = query.musthaves
-    document.getElementById("optional").value = query.optional
+    document.getElementById("musthaves").value = query.musthaves || "";
+    document.getElementById("optional").value = query.optional || "";
     onClick()
 })();

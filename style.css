@@ -1,0 +1,12 @@
+textarea {
+    resize: none;
+    width: 100%;
+    height: 150px;
+}
+
+/*
+div {
+    border-color: black;
+    border-style: solid;
+}
+*/
